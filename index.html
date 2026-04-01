@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TC Crissey - Disponibilit&eacute;s Championnats</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f0f2f5;
+            color: #1a1a2e;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1a5632, #2d8a4e);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .header h1 { font-size: 1.4em; margin-bottom: 4px; }
+        .header p { font-size: 0.85em; opacity: 0.85; }
+
+        .status-bar {
+            background: #fff;
+            padding: 8px 16px;
+            text-align: center;
+            font-size: 0.8em;
+            border-bottom: 1px solid #e0e0e0;
+            color: #666;
+        }
+
+        .status-bar.saving { color: #e67e22; }
+        .status-bar.saved { color: #27ae60; }
+        .status-bar.error { color: #e74c3c; }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 16px; }
+
+        /* Token setup */
+        .token-setup {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .token-setup h3 { margin-bottom: 12px; }
+        .token-setup input {
+            width: 100%;
+            max-width: 400px;
+            padding: 10px 14px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.9em;
+            margin-bottom: 12px;
+        }
+
+        .token-setup button {
+            background: #1a5632;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        .token-setup button:hover { background: #2d8a4e; }
+        .token-setup .hint { font-size: 0.75em; color: #999; margin-top: 8px; }
+
+        /* Player selector */
+        .player-selector {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        }
+
+        .player-selector h3 {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .player-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .player-btn {
+            padding: 10px 18px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .player-btn:hover { border-color: #2d8a4e; background: #f0faf4; }
+        .player-btn.active {
+            border-color: #1a5632;
+            background: #1a5632;
+            color: white;
+        }
+
+        /* Availability grid */
+        .avail-section {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        }
+
+        .avail-section h3 {
+            font-size: 0.95em;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .weekend-card {
+            border: 1px solid #e8e8e8;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+            transition: all 0.2s;
+        }
+
+        .weekend-card:hover { border-color: #ccc; }
+
+        .weekend-header {
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .weekend-header .badge {
+            font-size: 0.75em;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 500;
+        }
+
+        .badge-home { background: #e8f5e9; color: #2e7d32; }
+        .badge-away { background: #e3f2fd; color: #1565c0; }
+        .badge-tbc { background: #fff3e0; color: #e65100; }
+
+        .slots {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+        }
+
+        .slot-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 10px 8px;
+            border: 2px solid #e8e8e8;
+            border-radius: 8px;
+            background: #fafafa;
+            cursor: pointer;
+            font-size: 0.8em;
+            transition: all 0.15s;
+            user-select: none;
+        }
+
+        .slot-btn:hover { border-color: #bbb; }
+
+        .slot-btn.available {
+            border-color: #27ae60;
+            background: #e8f8f0;
+            color: #1a7a42;
+        }
+
+        .slot-btn.unavailable {
+            border-color: #e74c3c;
+            background: #fdeaea;
+            color: #c0392b;
+        }
+
+        .slot-btn .icon { font-size: 1.1em; }
+
+        /* Recap */
+        .recap-section {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        }
+
+        .recap-section h3 {
+            font-size: 0.95em;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .recap-weekend {
+            margin-bottom: 14px;
+            border: 1px solid #e8e8e8;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .recap-weekend-header {
+            background: #f8f9fa;
+            padding: 10px 12px;
+            font-weight: 600;
+            font-size: 0.85em;
+            border-bottom: 1px solid #e8e8e8;
+        }
+
+        .recap-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8em;
+        }
+
+        .recap-table th {
+            padding: 8px 6px;
+            text-align: center;
+            background: #f8f9fa;
+            font-weight: 500;
+            font-size: 0.85em;
+            color: #666;
+            border-bottom: 1px solid #eee;
+        }
+
+        .recap-table td {
+            padding: 6px;
+            text-align: center;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .recap-table td:first-child {
+            text-align: left;
+            font-weight: 500;
+            padding-left: 12px;
+        }
+
+        .recap-table tr:last-child td { border-bottom: none; }
+
+        .recap-check { color: #27ae60; font-weight: bold; }
+        .recap-cross { color: #e74c3c; }
+        .recap-unknown { color: #ccc; }
+
+        .recap-count {
+            font-size: 0.75em;
+            color: #999;
+            padding: 6px 12px;
+            background: #f8f9fa;
+            border-top: 1px solid #eee;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 16px;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 500;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+            color: #666;
+        }
+
+        .tab:hover { background: #f8f9fa; }
+        .tab.active {
+            color: #1a5632;
+            border-bottom-color: #1a5632;
+            background: #f0faf4;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container { padding: 10px; }
+            .player-btn { padding: 8px 14px; font-size: 0.85em; }
+            .slots { grid-template-columns: 1fr 1fr; gap: 4px; }
+            .slot-btn { padding: 8px 4px; font-size: 0.75em; }
+            .recap-table { font-size: 0.7em; }
+        }
+
+        .hidden { display: none !important; }
+
+        .reset-token {
+            display: inline-block;
+            margin-top: 8px;
+            font-size: 0.75em;
+            color: #999;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .reset-token:hover { color: #666; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>TC Crissey - &Eacute;quipe 2</h1>
+    <p>Championnats D&eacute;part. Hommes &bull; Division 2 Poule A &bull; Printemps 2026</p>
+</div>
+
+<div class="status-bar" id="statusBar">Chargement...</div>
+
+<div class="container">
+
+    <!-- Token setup -->
+    <div class="token-setup" id="tokenSetup">
+        <h3>Configuration initiale</h3>
+        <p style="margin-bottom:12px; font-size:0.85em; color:#666;">
+            Entre le token GitHub pour acc&eacute;der aux donn&eacute;es.<br>
+            Il sera sauvegard&eacute; dans ton navigateur.
+        </p>
+        <input type="password" id="tokenInput" placeholder="ghp_xxxxxxxxxxxx">
+        <br>
+        <button onclick="saveToken()">Valider</button>
+        <p class="hint">Token fourni par le capitaine. Il reste stock&eacute; localement.</p>
+    </div>
+
+    <!-- Main app -->
+    <div id="mainApp" class="hidden">
+
+        <!-- Player selector -->
+        <div class="player-selector">
+            <h3>Qui es-tu ?</h3>
+            <div class="player-buttons" id="playerButtons"></div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('dispos')">Mes dispos</div>
+            <div class="tab" onclick="switchTab('recap')">R&eacute;cap &eacute;quipe</div>
+        </div>
+
+        <!-- Availability grid -->
+        <div class="avail-section" id="availSection">
+            <h3 id="availTitle">S&eacute;lectionne ton pr&eacute;nom ci-dessus</h3>
+            <div id="weekendGrid"></div>
+        </div>
+
+        <!-- Recap -->
+        <div class="recap-section hidden" id="recapSection">
+            <h3>R&eacute;capitulatif de l'&eacute;quipe</h3>
+            <div id="recapGrid"></div>
+        </div>
+
+        <div style="text-align:center;">
+            <span class="reset-token" onclick="resetToken()">Changer le token GitHub</span>
+        </div>
+    </div>
+</div>
+
+<script>
+// ============================================================
+// CONFIG
+// ============================================================
+const REPO_OWNER = 'mathieutymeo';
+const REPO_NAME = 'tennis';
+const FILE_PATH = 'data.json';
+const API_BASE = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`;
+
+const PLAYERS = ['Mathieu L.', 'Rony', 'Alex', 'Mathieu D.', 'Tristan', 'J\u00e9r\u00f4me'];
+
+const WEEKENDS = [
+    { id: '1', dates: 'Sam 25 / Dim 26 avril',   match: 'CRISSEY vs ST GERMAIN DU PLAIN 1', type: 'home' },
+    { id: '2', dates: 'Sam 3 / Dim 4 mai',        match: 'ST MARCEL 4 vs CRISSEY',           type: 'away' },
+    { id: '3', dates: 'Sam 10 / Dim 11 mai',      match: 'CRISSEY vs DRACY 1',               type: 'home' },
+    { id: '4', dates: 'Sam 17 / Dim 18 mai',      match: 'TOURNUS 2 vs CRISSEY',             type: 'away' },
+    { id: '5', dates: 'Sam 24 / Dim 25 mai',      match: 'CRISSEY vs LE BREUIL ST SERNIN 2', type: 'home' },
+    { id: '6', dates: 'Sam 31 mai / Dim 1 juin',  match: 'Match \u00e0 confirmer',            type: 'tbc' },
+    { id: '7', dates: 'Sam 7 / Dim 8 juin',       match: 'Match \u00e0 confirmer',            type: 'tbc' },
+];
+
+const SLOTS = [
+    { key: 'sam_matin',  label: 'Sam. matin' },
+    { key: 'sam_aprem',  label: 'Sam. apr\u00e8s-midi' },
+    { key: 'dim_matin',  label: 'Dim. matin' },
+    { key: 'dim_aprem',  label: 'Dim. apr\u00e8s-midi' },
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let data = null;
+let fileSha = null;
+let currentPlayer = null;
+let currentTab = 'dispos';
+let saving = false;
+
+// ============================================================
+// TOKEN MANAGEMENT
+// ============================================================
+function getToken() {
+    return localStorage.getItem('crissey_gh_token');
+}
+
+function saveToken() {
+    const val = document.getElementById('tokenInput').value.trim();
+    if (!val) return;
+    localStorage.setItem('crissey_gh_token', val);
+    init();
+}
+
+function resetToken() {
+    localStorage.removeItem('crissey_gh_token');
+    document.getElementById('tokenSetup').classList.remove('hidden');
+    document.getElementById('mainApp').classList.add('hidden');
+}
+
+// ============================================================
+// GITHUB API
+// ============================================================
+async function fetchData() {
+    const token = getToken();
+    const res = await fetch(API_BASE, {
+        headers: {
+            'Authorization': `token ${token}`,
+            'Accept': 'application/vnd.github.v3+json',
+        },
+        cache: 'no-store',
+    });
+
+    if (!res.ok) throw new Error(`GitHub API: ${res.status}`);
+
+    const json = await res.json();
+    fileSha = json.sha;
+    const content = atob(json.content.replace(/\n/g, ''));
+    // Handle UTF-8 correctly
+    const bytes = Uint8Array.from(content, c => c.charCodeAt(0));
+    const decoded = new TextDecoder('utf-8').decode(bytes);
+    data = JSON.parse(decoded);
+    return data;
+}
+
+async function saveData() {
+    if (saving) return;
+    saving = true;
+    setStatus('saving', 'Enregistrement...');
+
+    try {
+        const token = getToken();
+        // Encode content as UTF-8 base64
+        const jsonStr = JSON.stringify(data, null, 2);
+        const bytes = new TextEncoder().encode(jsonStr);
+        const binStr = Array.from(bytes, b => String.fromCharCode(b)).join('');
+        const encoded = btoa(binStr);
+
+        const res = await fetch(API_BASE, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `token ${token}`,
+                'Accept': 'application/vnd.github.v3+json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                message: `Mise \u00e0 jour dispos - ${currentPlayer}`,
+                content: encoded,
+                sha: fileSha,
+            }),
+        });
+
+        if (!res.ok) {
+            const err = await res.json();
+            // Conflict: re-fetch and retry
+            if (res.status === 409) {
+                await fetchData();
+                saving = false;
+                return saveData();
+            }
+            throw new Error(err.message || res.status);
+        }
+
+        const result = await res.json();
+        fileSha = result.content.sha;
+        setStatus('saved', 'Sauvegard\u00e9 \u2713');
+    } catch (e) {
+        setStatus('error', `Erreur : ${e.message}`);
+    } finally {
+        saving = false;
+    }
+}
+
+// ============================================================
+// UI
+// ============================================================
+function setStatus(type, text) {
+    const bar = document.getElementById('statusBar');
+    bar.className = 'status-bar ' + type;
+    bar.textContent = text;
+}
+
+function switchTab(tab) {
+    currentTab = tab;
+    document.querySelectorAll('.tab').forEach((t, i) => {
+        t.classList.toggle('active', (i === 0 && tab === 'dispos') || (i === 1 && tab === 'recap'));
+    });
+    document.getElementById('availSection').classList.toggle('hidden', tab !== 'dispos');
+    document.getElementById('recapSection').classList.toggle('hidden', tab !== 'recap');
+    if (tab === 'recap') renderRecap();
+}
+
+function renderPlayerButtons() {
+    const container = document.getElementById('playerButtons');
+    container.innerHTML = '';
+    PLAYERS.forEach(name => {
+        const btn = document.createElement('button');
+        btn.className = 'player-btn' + (currentPlayer === name ? ' active' : '');
+        btn.textContent = name;
+        btn.onclick = () => selectPlayer(name);
+        container.appendChild(btn);
+    });
+}
+
+function selectPlayer(name) {
+    currentPlayer = name;
+    localStorage.setItem('crissey_player', name);
+    renderPlayerButtons();
+    renderGrid();
+}
+
+function renderGrid() {
+    const grid = document.getElementById('weekendGrid');
+    const title = document.getElementById('availTitle');
+
+    if (!currentPlayer) {
+        title.textContent = 'S\u00e9lectionne ton pr\u00e9nom ci-dessus';
+        grid.innerHTML = '';
+        return;
+    }
+
+    title.textContent = `Disponibilit\u00e9s de ${currentPlayer}`;
+    grid.innerHTML = '';
+
+    const playerData = data.players[currentPlayer];
+
+    WEEKENDS.forEach(we => {
+        const card = document.createElement('div');
+        card.className = 'weekend-card';
+
+        const typeIcon = we.type === 'home' ? '\uD83C\uDFE0' : we.type === 'away' ? '\u2708\uFE0F' : '\u2753';
+        const badgeClass = we.type === 'home' ? 'badge-home' : we.type === 'away' ? 'badge-away' : 'badge-tbc';
+        const badgeText = we.type === 'home' ? 'Domicile' : we.type === 'away' ? 'Ext\u00e9rieur' : '\u00c0 confirmer';
+
+        card.innerHTML = `
+            <div class="weekend-header">
+                <span>${typeIcon}</span>
+                <span>${we.dates}</span>
+                <span class="badge ${badgeClass}">${badgeText}</span>
+            </div>
+            <div style="font-size:0.78em;color:#666;margin-bottom:8px;">${we.match}</div>
+            <div class="slots" id="slots-${we.id}"></div>
+        `;
+        grid.appendChild(card);
+
+        const slotsContainer = card.querySelector(`#slots-${we.id}`);
+        SLOTS.forEach(slot => {
+            const val = playerData[we.id][slot.key];
+            const btn = document.createElement('button');
+            btn.className = 'slot-btn ' + (val ? 'available' : 'unavailable');
+            btn.innerHTML = `<span class="icon">${val ? '\u2705' : '\u274C'}</span> ${slot.label}`;
+            btn.onclick = () => toggleSlot(we.id, slot.key, btn);
+            slotsContainer.appendChild(btn);
+        });
+    });
+}
+
+async function toggleSlot(weekendId, slotKey, btn) {
+    const current = data.players[currentPlayer][weekendId][slotKey];
+    const newVal = current ? 0 : 1;
+    data.players[currentPlayer][weekendId][slotKey] = newVal;
+
+    // Update button immediately
+    btn.className = 'slot-btn ' + (newVal ? 'available' : 'unavailable');
+    const slotLabel = SLOTS.find(s => s.key === slotKey).label;
+    btn.innerHTML = `<span class="icon">${newVal ? '\u2705' : '\u274C'}</span> ${slotLabel}`;
+
+    await saveData();
+}
+
+function renderRecap() {
+    const container = document.getElementById('recapGrid');
+    container.innerHTML = '';
+
+    WEEKENDS.forEach(we => {
+        const div = document.createElement('div');
+        div.className = 'recap-weekend';
+
+        const typeIcon = we.type === 'home' ? '\uD83C\uDFE0' : we.type === 'away' ? '\u2708\uFE0F' : '\u2753';
+
+        let html = `<div class="recap-weekend-header">${typeIcon} ${we.dates} \u2014 ${we.match}</div>`;
+        html += `<table class="recap-table">`;
+        html += `<thead><tr><th></th>`;
+        SLOTS.forEach(s => { html += `<th>${s.label}</th>`; });
+        html += `</tr></thead><tbody>`;
+
+        const counts = [0, 0, 0, 0];
+
+        PLAYERS.forEach(player => {
+            html += `<tr><td>${player}</td>`;
+            SLOTS.forEach((s, i) => {
+                const val = data.players[player][we.id][s.key];
+                if (val) counts[i]++;
+                const cls = val ? 'recap-check' : 'recap-cross';
+                const txt = val ? '\u2713' : '\u2717';
+                html += `<td class="${cls}">${txt}</td>`;
+            });
+            html += `</tr>`;
+        });
+
+        html += `</tbody></table>`;
+        html += `<div class="recap-count">Joueurs dispo : `;
+        SLOTS.forEach((s, i) => {
+            html += `${s.label} <strong>${counts[i]}/${PLAYERS.length}</strong>`;
+            if (i < SLOTS.length - 1) html += ' &bull; ';
+        });
+        html += `</div>`;
+
+        div.innerHTML = html;
+        container.appendChild(div);
+    });
+}
+
+// ============================================================
+// INIT & AUTO-REFRESH
+// ============================================================
+async function init() {
+    const token = getToken();
+    if (!token) {
+        document.getElementById('tokenSetup').classList.remove('hidden');
+        document.getElementById('mainApp').classList.add('hidden');
+        setStatus('', 'En attente de configuration');
+        return;
+    }
+
+    document.getElementById('tokenSetup').classList.add('hidden');
+    document.getElementById('mainApp').classList.remove('hidden');
+
+    try {
+        await fetchData();
+
+        // Restore saved player
+        const saved = localStorage.getItem('crissey_player');
+        if (saved && PLAYERS.includes(saved)) {
+            currentPlayer = saved;
+        }
+
+        renderPlayerButtons();
+        renderGrid();
+        if (currentTab === 'recap') renderRecap();
+        setStatus('saved', 'Donn\u00e9es charg\u00e9es \u2713');
+    } catch (e) {
+        setStatus('error', `Erreur de chargement : ${e.message}`);
+        // Maybe bad token
+        if (e.message.includes('401') || e.message.includes('404')) {
+            document.getElementById('tokenSetup').classList.remove('hidden');
+            document.getElementById('mainApp').classList.add('hidden');
+        }
+    }
+}
+
+// Auto-refresh every 30s
+setInterval(async () => {
+    if (saving) return;
+    try {
+        await fetchData();
+        if (currentPlayer) renderGrid();
+        if (currentTab === 'recap') renderRecap();
+    } catch (e) {
+        // Silently fail on refresh
+    }
+}, 30000);
+
+// Start
+init();
+</script>
+</body>
+</html>
