@@ -26,10 +26,10 @@
         "dim_aprem": 0
       },
       "5": {
-        "sam_matin": 0,
+        "sam_matin": 1,
         "sam_aprem": 0,
         "dim_matin": 1,
-        "dim_aprem": 1
+        "dim_aprem": 0
       },
       "6": {
         "sam_matin": 1,
