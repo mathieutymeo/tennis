@@ -409,8 +409,8 @@ const WEEKENDS = [
     { id: 'b2',  dates: 'Vendredi 8 mai',          match: 'Victoire 1945',                    type: 'bonus', slots: BONUS_SLOTS },
     { id: '3',   dates: 'Sam 9 / Dim 10 mai',      match: 'CRISSEY vs DRACY 1',               type: 'home',  slots: WEEKEND_SLOTS },
     { id: 'b3',  dates: 'Jeudi 14 mai',            match: 'Ascension',                        type: 'bonus', slots: BONUS_SLOTS },
-    { id: 'bw1', dates: 'Sam 16 / Dim 17 mai',     match: 'Week-end bonus',                   type: 'bonus', slots: WEEKEND_SLOTS },
-    { id: 'bw2', dates: 'Sam 23 / Dim 24 mai',     match: 'Week-end bonus',                   type: 'bonus', slots: WEEKEND_SLOTS },
+    { id: 'bw1', dates: 'Sam 16 / Dim 17 mai',     match: 'Week-end bonus',                   type: 'bonus_we', slots: WEEKEND_SLOTS },
+    { id: 'bw2', dates: 'Sam 23 / Dim 24 mai',     match: 'Week-end bonus',                   type: 'bonus_we', slots: WEEKEND_SLOTS },
     { id: 'b4',  dates: 'Lundi 25 mai',            match: 'Lundi de Pentec\u00f4te',           type: 'bonus', slots: BONUS_SLOTS },
     { id: '6',   dates: 'Sam 30 / Dim 31 mai',     match: 'TOURNUS 2 vs CRISSEY',             type: 'away',  slots: WEEKEND_SLOTS },
     { id: '7',   dates: 'Sam 6 / Dim 7 juin',      match: 'CRISSEY vs LE BREUIL ST SERNIN 2', type: 'home',  slots: WEEKEND_SLOTS },
@@ -575,9 +575,9 @@ function renderGrid() {
         const card = document.createElement('div');
         card.className = 'weekend-card';
 
-        const typeIcons = { home: '\uD83C\uDFE0', away: '\u2708\uFE0F', bonus: '\uD83C\uDF1F', tbc: '\u2753' };
-        const badgeClasses = { home: 'badge-home', away: 'badge-away', bonus: 'badge-bonus', tbc: 'badge-tbc' };
-        const badgeTexts = { home: 'Domicile', away: 'Ext\u00e9rieur', bonus: 'Jour f\u00e9ri\u00e9', tbc: '\u00c0 confirmer' };
+        const typeIcons = { home: '\uD83C\uDFE0', away: '\u2708\uFE0F', bonus: '\uD83C\uDF1F', bonus_we: '\uD83C\uDF1F', tbc: '\u2753' };
+        const badgeClasses = { home: 'badge-home', away: 'badge-away', bonus: 'badge-bonus', bonus_we: 'badge-bonus', tbc: 'badge-tbc' };
+        const badgeTexts = { home: 'Domicile', away: 'Ext\u00e9rieur', bonus: 'Jour f\u00e9ri\u00e9', bonus_we: 'Jour bonus', tbc: '\u00c0 confirmer' };
 
         card.innerHTML = `
             <div class="weekend-header">
@@ -627,7 +627,7 @@ function renderRecap() {
         const div = document.createElement('div');
         div.className = 'recap-weekend';
 
-        const typeIcons = { home: '\uD83C\uDFE0', away: '\u2708\uFE0F', bonus: '\uD83C\uDF1F', tbc: '\u2753' };
+        const typeIcons = { home: '\uD83C\uDFE0', away: '\u2708\uFE0F', bonus: '\uD83C\uDF1F', bonus_we: '\uD83C\uDF1F', tbc: '\u2753' };
 
         let html = `<div class="recap-weekend-header">${typeIcons[we.type]} ${we.dates} \u2014 ${we.match}</div>`;
         html += `<table class="recap-table">`;
