@@ -65,11 +65,11 @@
       },
       "b2": {
         "matin": 1,
-        "aprem": 0
+        "aprem": 1
       },
       "b1": {
         "matin": 1,
-        "aprem": 0
+        "aprem": 1
       }
     },
     "Rony": {
