@@ -158,6 +158,7 @@
 
         .badge-home { background: #e8f5e9; color: #2e7d32; }
         .badge-away { background: #e3f2fd; color: #1565c0; }
+        .badge-bonus { background: #fce4ec; color: #ad1457; }
         .badge-tbc { background: #fff3e0; color: #e65100; }
 
         .slots {
@@ -389,21 +390,30 @@ const API_BASE = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/conten
 
 const PLAYERS = ['Mathieu L.', 'Rony', 'Alex', 'Mathieu D.', 'Tristan', 'J\u00e9r\u00f4me'];
 
-const WEEKENDS = [
-    { id: '1', dates: 'Sam 25 / Dim 26 avril',   match: 'CRISSEY vs ST GERMAIN DU PLAIN 1', type: 'home' },
-    { id: '2', dates: 'Sam 2 / Dim 3 mai',         match: 'ST MARCEL 4 vs CRISSEY',           type: 'away' },
-    { id: '3', dates: 'Sam 9 / Dim 10 mai',       match: 'CRISSEY vs DRACY 1',               type: 'home' },
-    { id: '4', dates: 'Sam 16 / Dim 17 mai',      match: 'TOURNUS 2 vs CRISSEY',             type: 'away' },
-    { id: '5', dates: 'Sam 23 / Dim 24 mai',      match: 'CRISSEY vs LE BREUIL ST SERNIN 2', type: 'home' },
-    { id: '6', dates: 'Sam 30 / Dim 31 mai',      match: 'Match \u00e0 confirmer',            type: 'tbc' },
-    { id: '7', dates: 'Sam 6 / Dim 7 juin',       match: 'Match \u00e0 confirmer',            type: 'tbc' },
-];
-
-const SLOTS = [
+const WEEKEND_SLOTS = [
     { key: 'sam_matin',  label: 'Sam. matin' },
     { key: 'sam_aprem',  label: 'Sam. apr\u00e8s-midi' },
     { key: 'dim_matin',  label: 'Dim. matin' },
     { key: 'dim_aprem',  label: 'Dim. apr\u00e8s-midi' },
+];
+
+const BONUS_SLOTS = [
+    { key: 'matin',  label: 'Matin' },
+    { key: 'aprem',  label: 'Apr\u00e8s-midi' },
+];
+
+const WEEKENDS = [
+    { id: '1',   dates: 'Sam 25 / Dim 26 avril',  match: 'CRISSEY vs ST GERMAIN DU PLAIN 1', type: 'home',  slots: WEEKEND_SLOTS },
+    { id: 'b1',  dates: 'Jeudi 1er mai',           match: 'F\u00eate du travail',              type: 'bonus', slots: BONUS_SLOTS },
+    { id: '2',   dates: 'Sam 2 / Dim 3 mai',       match: 'ST MARCEL 4 vs CRISSEY',           type: 'away',  slots: WEEKEND_SLOTS },
+    { id: 'b2',  dates: 'Vendredi 8 mai',          match: 'Victoire 1945',                    type: 'bonus', slots: BONUS_SLOTS },
+    { id: '3',   dates: 'Sam 9 / Dim 10 mai',      match: 'CRISSEY vs DRACY 1',               type: 'home',  slots: WEEKEND_SLOTS },
+    { id: 'b3',  dates: 'Jeudi 14 mai',            match: 'Ascension',                        type: 'bonus', slots: BONUS_SLOTS },
+    { id: 'bw1', dates: 'Sam 16 / Dim 17 mai',     match: 'Week-end bonus',                   type: 'bonus', slots: WEEKEND_SLOTS },
+    { id: 'bw2', dates: 'Sam 23 / Dim 24 mai',     match: 'Week-end bonus',                   type: 'bonus', slots: WEEKEND_SLOTS },
+    { id: 'b4',  dates: 'Lundi 25 mai',            match: 'Lundi de Pentec\u00f4te',           type: 'bonus', slots: BONUS_SLOTS },
+    { id: '6',   dates: 'Sam 30 / Dim 31 mai',     match: 'TOURNUS 2 vs CRISSEY',             type: 'away',  slots: WEEKEND_SLOTS },
+    { id: '7',   dates: 'Sam 6 / Dim 7 juin',      match: 'CRISSEY vs LE BREUIL ST SERNIN 2', type: 'home',  slots: WEEKEND_SLOTS },
 ];
 
 // ============================================================
@@ -565,15 +575,15 @@ function renderGrid() {
         const card = document.createElement('div');
         card.className = 'weekend-card';
 
-        const typeIcon = we.type === 'home' ? '\uD83C\uDFE0' : we.type === 'away' ? '\u2708\uFE0F' : '\u2753';
-        const badgeClass = we.type === 'home' ? 'badge-home' : we.type === 'away' ? 'badge-away' : 'badge-tbc';
-        const badgeText = we.type === 'home' ? 'Domicile' : we.type === 'away' ? 'Ext\u00e9rieur' : '\u00c0 confirmer';
+        const typeIcons = { home: '\uD83C\uDFE0', away: '\u2708\uFE0F', bonus: '\uD83C\uDF1F', tbc: '\u2753' };
+        const badgeClasses = { home: 'badge-home', away: 'badge-away', bonus: 'badge-bonus', tbc: 'badge-tbc' };
+        const badgeTexts = { home: 'Domicile', away: 'Ext\u00e9rieur', bonus: 'Jour f\u00e9ri\u00e9', tbc: '\u00c0 confirmer' };
 
         card.innerHTML = `
             <div class="weekend-header">
-                <span>${typeIcon}</span>
+                <span>${typeIcons[we.type]}</span>
                 <span>${we.dates}</span>
-                <span class="badge ${badgeClass}">${badgeText}</span>
+                <span class="badge ${badgeClasses[we.type]}">${badgeTexts[we.type]}</span>
             </div>
             <div style="font-size:0.78em;color:#666;margin-bottom:8px;">${we.match}</div>
             <div class="slots" id="slots-${we.id}"></div>
@@ -581,25 +591,29 @@ function renderGrid() {
         grid.appendChild(card);
 
         const slotsContainer = card.querySelector(`#slots-${we.id}`);
-        SLOTS.forEach(slot => {
-            const val = playerData[we.id][slot.key];
+        we.slots.forEach(slot => {
+            const val = (playerData[we.id] && playerData[we.id][slot.key]) || 0;
             const btn = document.createElement('button');
             btn.className = 'slot-btn ' + (val ? 'available' : 'unavailable');
             btn.innerHTML = `<span class="icon">${val ? '\u2705' : '\u274C'}</span> ${slot.label}`;
-            btn.onclick = () => toggleSlot(we.id, slot.key, btn);
+            btn.onclick = () => toggleSlot(we.id, slot.key, btn, we.slots);
             slotsContainer.appendChild(btn);
         });
     });
 }
 
-async function toggleSlot(weekendId, slotKey, btn) {
+async function toggleSlot(weekendId, slotKey, btn, slots) {
+    if (!data.players[currentPlayer][weekendId]) {
+        data.players[currentPlayer][weekendId] = {};
+        slots.forEach(s => { data.players[currentPlayer][weekendId][s.key] = 0; });
+    }
     const current = data.players[currentPlayer][weekendId][slotKey];
     const newVal = current ? 0 : 1;
     data.players[currentPlayer][weekendId][slotKey] = newVal;
 
     // Update button immediately
     btn.className = 'slot-btn ' + (newVal ? 'available' : 'unavailable');
-    const slotLabel = SLOTS.find(s => s.key === slotKey).label;
+    const slotLabel = slots.find(s => s.key === slotKey).label;
     btn.innerHTML = `<span class="icon">${newVal ? '\u2705' : '\u274C'}</span> ${slotLabel}`;
 
     await saveData();
@@ -613,20 +627,20 @@ function renderRecap() {
         const div = document.createElement('div');
         div.className = 'recap-weekend';
 
-        const typeIcon = we.type === 'home' ? '\uD83C\uDFE0' : we.type === 'away' ? '\u2708\uFE0F' : '\u2753';
+        const typeIcons = { home: '\uD83C\uDFE0', away: '\u2708\uFE0F', bonus: '\uD83C\uDF1F', tbc: '\u2753' };
 
-        let html = `<div class="recap-weekend-header">${typeIcon} ${we.dates} \u2014 ${we.match}</div>`;
+        let html = `<div class="recap-weekend-header">${typeIcons[we.type]} ${we.dates} \u2014 ${we.match}</div>`;
         html += `<table class="recap-table">`;
         html += `<thead><tr><th></th>`;
-        SLOTS.forEach(s => { html += `<th>${s.label}</th>`; });
+        we.slots.forEach(s => { html += `<th>${s.label}</th>`; });
         html += `</tr></thead><tbody>`;
 
-        const counts = [0, 0, 0, 0];
+        const counts = new Array(we.slots.length).fill(0);
 
         PLAYERS.forEach(player => {
             html += `<tr><td>${player}</td>`;
-            SLOTS.forEach((s, i) => {
-                const val = data.players[player][we.id][s.key];
+            we.slots.forEach((s, i) => {
+                const val = (data.players[player][we.id] && data.players[player][we.id][s.key]) || 0;
                 if (val) counts[i]++;
                 const cls = val ? 'recap-check' : 'recap-cross';
                 const txt = val ? '\u2713' : '\u2717';
@@ -637,9 +651,9 @@ function renderRecap() {
 
         html += `</tbody></table>`;
         html += `<div class="recap-count">Joueurs dispo : `;
-        SLOTS.forEach((s, i) => {
+        we.slots.forEach((s, i) => {
             html += `${s.label} <strong>${counts[i]}/${PLAYERS.length}</strong>`;
-            if (i < SLOTS.length - 1) html += ' &bull; ';
+            if (i < we.slots.length - 1) html += ' &bull; ';
         });
         html += `</div>`;
 
