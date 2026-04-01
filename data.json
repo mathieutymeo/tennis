@@ -149,7 +149,7 @@
         "sam_matin": 1,
         "sam_aprem": 1,
         "dim_matin": 1,
-        "dim_aprem": 0
+        "dim_aprem": 1
       },
       "4": {
         "sam_matin": 0,
@@ -164,7 +164,7 @@
         "dim_aprem": 1
       },
       "6": {
-        "sam_matin": 0,
+        "sam_matin": 1,
         "sam_aprem": 0,
         "dim_matin": 0,
         "dim_aprem": 0
