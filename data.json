@@ -50,7 +50,7 @@
       "bw1": {
         "sam_matin": 1,
         "sam_aprem": 1,
-        "dim_matin": 1,
+        "dim_matin": 0,
         "dim_aprem": 1
       },
       "bw2": {
@@ -64,7 +64,7 @@
         "aprem": 1
       },
       "b2": {
-        "matin": 1,
+        "matin": 0,
         "aprem": 1
       },
       "b1": {
