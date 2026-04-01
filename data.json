@@ -220,6 +220,10 @@
       "b4": {
         "matin": 1,
         "aprem": 1
+      },
+      "b3": {
+        "matin": 1,
+        "aprem": 0
       }
     },
     "Tristan": {
