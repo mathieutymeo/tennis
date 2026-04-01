@@ -87,7 +87,7 @@
       },
       "3": {
         "sam_matin": 1,
-        "sam_aprem": 0,
+        "sam_aprem": 1,
         "dim_matin": 1,
         "dim_aprem": 1
       },
@@ -120,6 +120,10 @@
         "aprem": 1
       },
       "b2": {
+        "matin": 1,
+        "aprem": 1
+      },
+      "b4": {
         "matin": 1,
         "aprem": 0
       }
