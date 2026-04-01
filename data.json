@@ -1,58 +1,268 @@
 {
   "players": {
     "Mathieu L.": {
-      "1": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "2": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "3": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "4": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "5": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "6": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "7": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0}
+      "1": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "2": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "3": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "4": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "5": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "6": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "7": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      }
     },
     "Rony": {
-      "1": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "2": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "3": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "4": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "5": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "6": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "7": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0}
+      "1": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "2": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "3": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "4": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "5": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "6": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "7": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      }
     },
     "Alex": {
-      "1": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "2": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "3": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "4": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "5": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "6": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "7": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0}
+      "1": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "2": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "3": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "4": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "5": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "6": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "7": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      }
     },
     "Mathieu D.": {
-      "1": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "2": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "3": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "4": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "5": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "6": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "7": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0}
+      "1": {
+        "sam_matin": 1,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "2": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "3": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "4": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "5": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "6": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "7": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      }
     },
     "Tristan": {
-      "1": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "2": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "3": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "4": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "5": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "6": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "7": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0}
+      "1": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "2": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "3": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "4": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "5": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "6": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "7": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      }
     },
     "Jérôme": {
-      "1": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "2": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "3": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "4": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "5": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "6": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0},
-      "7": {"sam_matin": 0, "sam_aprem": 0, "dim_matin": 0, "dim_aprem": 0}
+      "1": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "2": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "3": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "4": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "5": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "6": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      },
+      "7": {
+        "sam_matin": 0,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
+      }
     }
   }
 }
