@@ -270,7 +270,7 @@
         "dim_aprem": 0
       },
       "b2": {
-        "matin": 1,
+        "matin": 0,
         "aprem": 1
       }
     },
