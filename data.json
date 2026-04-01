@@ -42,6 +42,10 @@
         "sam_aprem": 1,
         "dim_matin": 1,
         "dim_aprem": 1
+      },
+      "b3": {
+        "matin": 1,
+        "aprem": 0
       }
     },
     "Rony": {
