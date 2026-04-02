@@ -180,6 +180,12 @@
       "b3": {
         "matin": 1,
         "aprem": 1
+      },
+      "bw1": {
+        "sam_matin": 1,
+        "sam_aprem": 0,
+        "dim_matin": 0,
+        "dim_aprem": 0
       }
     },
     "Mathieu D.": {
