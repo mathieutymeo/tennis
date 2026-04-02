@@ -320,6 +320,180 @@
             text-decoration: underline;
         }
         .reset-token:hover { color: #666; }
+
+        /* Captains table */
+        .captains-section {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        }
+
+        .captains-section h3 {
+            font-size: 0.95em;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .captain-card {
+            border: 1px solid #e8e8e8;
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 10px;
+            transition: all 0.2s;
+        }
+
+        .captain-card:hover { border-color: #ccc; }
+
+        .captain-club {
+            font-weight: 600;
+            font-size: 0.9em;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .captain-club .badge {
+            font-size: 0.75em;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 500;
+        }
+
+        .captain-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            font-size: 0.82em;
+            color: #444;
+        }
+
+        .captain-info a {
+            color: #1a5632;
+            text-decoration: none;
+        }
+
+        .captain-info a:hover { text-decoration: underline; }
+
+        .captain-detail {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .captain-detail .label {
+            color: #999;
+            min-width: 70px;
+        }
+
+        /* Match selection */
+        .match-selection {
+            border-top: 1px solid #eee;
+            padding: 10px 12px;
+            background: #f8fdf9;
+        }
+
+        .match-selection-title {
+            font-size: 0.78em;
+            font-weight: 600;
+            color: #1a5632;
+            margin-bottom: 8px;
+        }
+
+        .creneau-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+
+        .creneau-btn {
+            padding: 5px 10px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            font-size: 0.75em;
+            transition: all 0.15s;
+        }
+
+        .creneau-btn:hover { border-color: #2d8a4e; }
+        .creneau-btn.selected {
+            border-color: #1a5632;
+            background: #1a5632;
+            color: white;
+        }
+
+        .joueur-toggles {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .joueur-toggle {
+            padding: 5px 10px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            font-size: 0.75em;
+            transition: all 0.15s;
+        }
+
+        .joueur-toggle:hover { border-color: #2d8a4e; }
+        .joueur-toggle.selected {
+            border-color: #f39c12;
+            background: #fef9e7;
+            color: #b7791f;
+            font-weight: 600;
+        }
+
+        .joueur-toggle.indispo {
+            opacity: 0.4;
+        }
+
+        .match-label {
+            font-size: 0.72em;
+            color: #888;
+            margin-bottom: 4px;
+        }
+
+        .report-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+
+        .report-btn {
+            padding: 5px 10px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            font-size: 0.75em;
+            transition: all 0.15s;
+        }
+
+        .report-btn:hover { border-color: #e67e22; }
+        .report-btn.selected {
+            border-color: #e67e22;
+            background: #e67e22;
+            color: white;
+        }
+
+        .report-badge {
+            display: inline-block;
+            font-size: 0.7em;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 500;
+            background: #fff3e0;
+            color: #e65100;
+            margin-left: 6px;
+        }
     </style>
 </head>
 <body>
@@ -359,6 +533,7 @@
         <div class="tabs">
             <div class="tab active" onclick="switchTab('dispos')">Mes dispos</div>
             <div class="tab" onclick="switchTab('recap')">R&eacute;cap &eacute;quipe</div>
+            <div class="tab" onclick="switchTab('capitaines')">Capitaines</div>
         </div>
 
         <!-- Availability grid -->
@@ -371,6 +546,12 @@
         <div class="recap-section hidden" id="recapSection">
             <h3>R&eacute;capitulatif de l'&eacute;quipe</h3>
             <div id="recapGrid"></div>
+        </div>
+
+        <!-- Capitaines -->
+        <div class="captains-section hidden" id="captainsSection">
+            <h3>Capitaines des &eacute;quipes adverses</h3>
+            <div id="captainsGrid"></div>
         </div>
 
         <div style="text-align:center;">
@@ -414,6 +595,44 @@ const WEEKENDS = [
     { id: 'b4',  dates: 'Lundi 25 mai',            match: 'Lundi de Pentec\u00f4te',           type: 'bonus', slots: BONUS_SLOTS },
     { id: '6',   dates: 'Sam 30 / Dim 31 mai',     match: 'TOURNUS 2 vs CRISSEY',             type: 'away',  slots: WEEKEND_SLOTS },
     { id: '7',   dates: 'Sam 6 / Dim 7 juin',      match: 'CRISSEY vs LE BREUIL ST SERNIN 2', type: 'home',  slots: WEEKEND_SLOTS },
+];
+
+const CAPTAINS = [
+    {
+        club: 'ST GERMAIN DU PLAIN 1',
+        journee: 'J1 — 25/26 avril (Dom.)',
+        capitaine: 'Xavier Duchier',
+        telephone: '06 58 05 47 03',
+        email: '',
+    },
+    {
+        club: 'ST MARCEL 4',
+        journee: 'J2 — 2/3 mai (Ext.)',
+        capitaine: 'Patrick Diry',
+        telephone: '06 61 54 08 93',
+        email: '',
+    },
+    {
+        club: 'DRACY 1',
+        journee: 'J3 — 9/10 mai (Dom.)',
+        capitaine: 'S\u00e9bastien Cassagne',
+        telephone: '06 59 80 98 54',
+        email: '',
+    },
+    {
+        club: 'TOURNUS 2',
+        journee: 'J6 — 30/31 mai (Ext.)',
+        capitaine: 'Bertrand Cretet',
+        telephone: '07 77 75 85 50',
+        email: '',
+    },
+    {
+        club: 'LE BREUIL ST SERNIN 2',
+        journee: 'J7 — 6/7 juin (Dom.)',
+        capitaine: 'Julien Billet',
+        telephone: '06 47 81 42 05',
+        email: '',
+    },
 ];
 
 // ============================================================
@@ -467,6 +686,8 @@ async function fetchData() {
     const bytes = Uint8Array.from(content, c => c.charCodeAt(0));
     const decoded = new TextDecoder('utf-8').decode(bytes);
     data = JSON.parse(decoded);
+    // Ensure matches structure exists
+    if (!data.matches) data.matches = {};
     return data;
 }
 
@@ -491,7 +712,7 @@ async function saveData() {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                message: `Mise \u00e0 jour dispos - ${currentPlayer}`,
+                message: `Mise \u00e0 jour - ${currentPlayer || 'organisation matchs'}`,
                 content: encoded,
                 sha: fileSha,
             }),
@@ -530,11 +751,16 @@ function setStatus(type, text) {
 function switchTab(tab) {
     currentTab = tab;
     document.querySelectorAll('.tab').forEach((t, i) => {
-        t.classList.toggle('active', (i === 0 && tab === 'dispos') || (i === 1 && tab === 'recap'));
+        t.classList.toggle('active',
+            (i === 0 && tab === 'dispos') ||
+            (i === 1 && tab === 'recap') ||
+            (i === 2 && tab === 'capitaines'));
     });
     document.getElementById('availSection').classList.toggle('hidden', tab !== 'dispos');
     document.getElementById('recapSection').classList.toggle('hidden', tab !== 'recap');
+    document.getElementById('captainsSection').classList.toggle('hidden', tab !== 'capitaines');
     if (tab === 'recap') renderRecap();
+    if (tab === 'capitaines') renderCaptains();
 }
 
 function renderPlayerButtons() {
@@ -619,6 +845,67 @@ async function toggleSlot(weekendId, slotKey, btn, slots) {
     await saveData();
 }
 
+function isMatchWeekend(we) {
+    return we.type === 'home' || we.type === 'away';
+}
+
+function getMatchData(weId) {
+    if (!data.matches) data.matches = {};
+    if (!data.matches[weId]) data.matches[weId] = { creneau: '', joueurs: [], report: '' };
+    if (!data.matches[weId].report) data.matches[weId].report = '';
+    return data.matches[weId];
+}
+
+function getWeekendById(id) {
+    return WEEKENDS.find(w => w.id === id);
+}
+
+function getBonusWeekends() {
+    return WEEKENDS.filter(w => w.type === 'bonus' || w.type === 'bonus_we');
+}
+
+function getEffectiveWeekend(we) {
+    const matchData = getMatchData(we.id);
+    if (matchData.report) {
+        return getWeekendById(matchData.report) || we;
+    }
+    return we;
+}
+
+function isPlayerDispoForCreneau(player, weId, creneau) {
+    if (!creneau) return false;
+    return (data.players[player][weId] && data.players[player][weId][creneau]) || 0;
+}
+
+async function reportMatch(weId, bonusId) {
+    const matchData = getMatchData(weId);
+    matchData.report = (matchData.report === bonusId) ? '' : bonusId;
+    // Reset créneau and joueurs when changing report
+    matchData.creneau = '';
+    matchData.joueurs = [];
+    renderRecap();
+    await saveData();
+}
+
+async function selectCreneau(weId, slotKey) {
+    const matchData = getMatchData(weId);
+    matchData.creneau = (matchData.creneau === slotKey) ? '' : slotKey;
+    renderRecap();
+    await saveData();
+}
+
+async function toggleJoueur(weId, player) {
+    const matchData = getMatchData(weId);
+    const idx = matchData.joueurs.indexOf(player);
+    if (idx >= 0) {
+        matchData.joueurs.splice(idx, 1);
+    } else {
+        matchData.joueurs.push(player);
+    }
+    renderRecap();
+    await saveData();
+}
+
 function renderRecap() {
     const container = document.getElementById('recapGrid');
     container.innerHTML = '';
@@ -657,8 +944,100 @@ function renderRecap() {
         });
         html += `</div>`;
 
+        // Match selection (report + créneau + joueurs) for actual match weekends
+        if (isMatchWeekend(we)) {
+            const matchData = getMatchData(we.id);
+            const effectiveWe = getEffectiveWeekend(we);
+            const isReported = !!matchData.report;
+
+            html += `<div class="match-selection">`;
+            html += `<div class="match-selection-title">\uD83C\uDFAF Organisation du match</div>`;
+
+            // Report selector
+            html += `<div class="match-label">Reporter sur un jour bonus :</div>`;
+            html += `<div class="report-buttons">`;
+            getBonusWeekends().forEach(bonus => {
+                const sel = matchData.report === bonus.id ? ' selected' : '';
+                html += `<button class="report-btn${sel}" data-we="${we.id}" data-bonus="${bonus.id}">${bonus.dates}</button>`;
+            });
+            html += `</div>`;
+
+            if (isReported) {
+                const bonusWe = getWeekendById(matchData.report);
+                html += `<div style="font-size:0.78em;color:#e65100;margin-bottom:8px;font-weight:500;">\u27A1\uFE0F Report\u00e9 au ${bonusWe.dates}</div>`;
+            }
+
+            // Créneau selector (uses effective weekend's slots)
+            html += `<div class="match-label">Cr\u00e9neau retenu${isReported ? ' (' + effectiveWe.dates + ')' : ''} :</div>`;
+            html += `<div class="creneau-buttons" id="creneau-${we.id}">`;
+            effectiveWe.slots.forEach(s => {
+                const sel = matchData.creneau === s.key ? ' selected' : '';
+                html += `<button class="creneau-btn${sel}" data-we="${we.id}" data-slot="${s.key}">${s.label}</button>`;
+            });
+            html += `</div>`;
+
+            // Player selector (uses effective weekend's dispos)
+            html += `<div class="match-label">Joueurs s\u00e9lectionn\u00e9s :</div>`;
+            html += `<div class="joueur-toggles" id="joueurs-${we.id}">`;
+            PLAYERS.forEach(player => {
+                const isSelected = matchData.joueurs.includes(player);
+                const isDispo = matchData.creneau ? isPlayerDispoForCreneau(player, effectiveWe.id, matchData.creneau) : true;
+                let cls = 'joueur-toggle';
+                if (isSelected) cls += ' selected';
+                if (!isDispo) cls += ' indispo';
+                html += `<button class="${cls}" data-we="${we.id}" data-player="${player}">${player}${isSelected ? ' \u2705' : ''}</button>`;
+            });
+            html += `</div>`;
+
+            html += `</div>`;
+        }
+
         div.innerHTML = html;
         container.appendChild(div);
+
+        // Attach event listeners for match weekends
+        if (isMatchWeekend(we)) {
+            div.querySelectorAll('.report-btn').forEach(btn => {
+                btn.addEventListener('click', () => reportMatch(btn.dataset.we, btn.dataset.bonus));
+            });
+            div.querySelectorAll('.creneau-btn').forEach(btn => {
+                btn.addEventListener('click', () => selectCreneau(btn.dataset.we, btn.dataset.slot));
+            });
+            div.querySelectorAll('.joueur-toggle').forEach(btn => {
+                btn.addEventListener('click', () => toggleJoueur(btn.dataset.we, btn.dataset.player));
+            });
+        }
+    });
+}
+
+function renderCaptains() {
+    const container = document.getElementById('captainsGrid');
+    container.innerHTML = '';
+
+    CAPTAINS.forEach(cap => {
+        const card = document.createElement('div');
+        card.className = 'captain-card';
+
+        let html = `<div class="captain-club">
+            <span>\uD83C\uDFBE</span>
+            <span>${cap.club}</span>
+            <span class="badge badge-away">${cap.journee}</span>
+        </div>`;
+        html += `<div class="captain-info">`;
+        html += `<div class="captain-detail"><span class="label">\uD83D\uDC64 Capitaine</span> <strong>${cap.capitaine}</strong></div>`;
+        if (cap.telephone) {
+            html += `<div class="captain-detail"><span class="label">\uD83D\uDCF1 T\u00e9l.</span> <a href="tel:${cap.telephone}">${cap.telephone}</a></div>`;
+        }
+        if (cap.email) {
+            html += `<div class="captain-detail"><span class="label">\uD83D\uDCE7 Email</span> <a href="mailto:${cap.email}">${cap.email}</a></div>`;
+        }
+        if (!cap.telephone && !cap.email) {
+            html += `<div class="captain-detail" style="color:#999;font-style:italic;">Contact \u00e0 renseigner</div>`;
+        }
+        html += `</div>`;
+
+        card.innerHTML = html;
+        container.appendChild(card);
     });
 }
 
