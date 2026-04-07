@@ -411,13 +411,16 @@
       "joueurs": [
         "Alex",
         "Mathieu D.",
-        "Tristan"
+        "Tristan",
+        "Rony"
       ],
       "report": ""
     },
     "2": {
       "creneau": "",
-      "joueurs": [],
+      "joueurs": [
+        "Mathieu L."
+      ],
       "report": ""
     },
     "3": {
