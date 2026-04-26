@@ -260,7 +260,7 @@
         "aprem": 1
       },
       "b3": {
-        "matin": 0,
+        "matin": 1,
         "aprem": 0
       }
     },
