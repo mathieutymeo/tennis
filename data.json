@@ -411,14 +411,9 @@
   },
   "matches": {
     "1": {
-      "creneau": "sam_aprem",
-      "joueurs": [
-        "Alex",
-        "Mathieu D.",
-        "Tristan",
-        "Rony"
-      ],
-      "report": ""
+      "creneau": "",
+      "joueurs": [],
+      "report": "b3"
     },
     "2": {
       "creneau": "",
